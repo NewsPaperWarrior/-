@@ -9,17 +9,17 @@ class Marquee(tk.Canvas):
         self.margin = margin
         self.speed = speed
 
-        # 创建文本并获取文本大小
+        # 創建文本並獲取文本大小
         self.text_id = self.create_text(0, 0, text=text, anchor='w', font=self.font, fill=self.fg)
         (x0, y0, x1, y1) = self.bbox('all')
         text_width = (x1 - x0) + (2 * margin)
         text_height = (y1 - y0) + (2 * margin)
 
-        # 将文本绘制到画布上
+        # 將文本顯示於畫面
         self.itemconfig(self.text_id, width=self.winfo_width(), text=text)
         self.coords(self.text_id, self.winfo_width(), text_height//2)
 
-        # 设置画布的尺寸和绑定滚动事件
+        # 設定畫面大小與滾動
         self.config(width=text_width, height=text_height)
         self.bind('<Configure>', self.reset)
 
@@ -38,23 +38,23 @@ class Marquee(tk.Canvas):
             self.move(self.text_id, -2, 0)
         self.after(self.speed, self.scroll)
 
-# 创建主窗口
+# 創建跑馬燈視窗
 root = tk.Tk()
 root.geometry('400x50')
 root.title('跑马灯')
 
-# 创建跑马灯并放置在主窗口上
+# 建立跑馬燈並顯示於視窗
 text_var = tk.StringVar()
 text_entry = tk.Entry(root, textvariable=text_var)
 text_entry.pack(side='top', fill='x')
 marquee = Marquee(root, text='', borderwidth=2, relief='sunken', speed=50, fg='black')
 marquee.pack(fill='x')
 
-# 监听用户输入
+# 偵測輸入文本
 def on_text_changed(*args):
     marquee.itemconfig(marquee.text_id, text=text_var.get())
 
 text_var.trace('w', on_text_changed)
 
-# 运行程序
+# 執行
 root.mainloop()
